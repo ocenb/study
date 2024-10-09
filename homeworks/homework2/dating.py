@@ -6,11 +6,9 @@ def dating(boys, girls):
 	sortedBoys.sort()
 	sortedGirls = girls
 	sortedGirls.sort()
-	index = 0
 	print('Идеальные пары:')
-	for boy in sortedBoys:
-		print(f'{boy} и {sortedGirls[index]}')
-		index += 1
+	for i, boy in enumerate(sortedBoys):
+		print(f'{boy} и {sortedGirls[i]}')
 
 dating(['Peter', 'Alex', 'John', 'Arthur', 'Richard'], ['Kate', 'Liza', 'Kira', 'Emma', 'Trisha'])
 dating(['Peter', 'Alex', 'John', 'Arthur', 'Richard', 'Michael'], ['Kate', 'Liza', 'Kira', 'Emma', 'Trisha'])
