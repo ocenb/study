@@ -7,8 +7,8 @@ def dating(boys, girls):
 	sortedGirls = girls
 	sortedGirls.sort()
 	print('Идеальные пары:')
-	for i, boy in enumerate(sortedBoys):
-		print(f'{boy} и {sortedGirls[i]}')
+	for boy, girl in zip(sortedBoys, sortedGirls):
+		print(f'{boy} и {girl}')
 
 dating(['Peter', 'Alex', 'John', 'Arthur', 'Richard'], ['Kate', 'Liza', 'Kira', 'Emma', 'Trisha'])
 dating(['Peter', 'Alex', 'John', 'Arthur', 'Richard', 'Michael'], ['Kate', 'Liza', 'Kira', 'Emma', 'Trisha'])
