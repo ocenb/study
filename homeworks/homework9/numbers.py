@@ -26,5 +26,5 @@ def validate_car_number(car_id):
 car_id_1 = "А222ВС96"
 print(validate_car_number(car_id_1))
 
-car_id_2 = "А322ВВ193"
+car_id_2 = "АБ22ВВ193"
 print(validate_car_number(car_id_2))
