@@ -1,4 +1,13 @@
 services:
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -24,3 +33,4 @@ services:
 volumes:
   mongo_data:
   pg_data:
+  redis_data:
