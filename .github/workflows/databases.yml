@@ -1,0 +1,60 @@
+name: Databases CI
+
+on:
+  push:
+    paths:
+      - 'databases/**'
+      - '.github/workflows/databases.yml'
+  pull_request:
+    paths:
+      - 'databases/**'
+      - '.github/workflows/databases.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: databases
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check backup scripts
+        run: |
+          bash -n scripts/backup_postgres.sh scripts/backup_mongodb.sh
+          shellcheck scripts/backup_postgres.sh scripts/backup_mongodb.sh
+          python3 -m unittest discover -s tests -v
+      - name: Validate Compose and build application
+        run: |
+          docker compose config --quiet
+          docker compose build app
+          docker compose run --rm --no-deps --user root app python -m compileall -q /app
+      - name: Start databases and run examples
+        run: |
+          docker compose up -d --wait mongodb postgres redis
+          docker compose run --rm app
+          docker compose run --rm app python redis_cache.py
+          docker compose exec -T postgres psql -U postgres -d study_db -v ON_ERROR_STOP=1 -c "CREATE TABLE backup_probe (id integer PRIMARY KEY); INSERT INTO backup_probe VALUES (42);"
+      - name: Create and restore PostgreSQL backup
+        run: |
+          backup=$(bash scripts/backup_postgres.sh)
+          docker compose exec -T postgres createdb -U postgres restore_check
+          docker compose exec -T postgres pg_restore -U postgres -d restore_check --exit-on-error --no-owner --no-acl < "$backup"
+          result=$(docker compose exec -T postgres psql -U postgres -d restore_check -tAc 'SELECT id FROM backup_probe')
+          test "$result" = "42"
+      - name: Create and restore MongoDB backup
+        run: |
+          backup=$(bash scripts/backup_mongodb.sh)
+          docker compose exec -T mongodb mongorestore --archive --gzip --nsFrom='shop_db.*' --nsTo='restore_check.*' < "$backup"
+          docker compose exec -T mongodb mongosh --quiet --eval 'if (db.getSiblingDB("restore_check").orders.countDocuments({}) !== 100) { quit(1); }'
+      - name: Show service logs
+        if: always()
+        run: docker compose logs --no-color
+      - name: Clean up CI containers and volumes
+        if: always()
+        run: docker compose down -v --remove-orphans

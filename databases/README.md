@@ -8,13 +8,13 @@
   - `pymongo`
   - `redis`
   - `alembic`
-- **Базы данных**: MongoDB, PostgreSQL (Docker Compose)
+- **Базы данных**: MongoDB, PostgreSQL, Redis (Docker Compose)
 
 ---
 
 ## 1. Запуск инфраструктуры (Docker)
 
-Запуск всех сервисов (MongoDB + PostgreSQL):
+Запуск приложения и всех БД (MongoDB + PostgreSQL + Redis):
 ```powershell
 docker compose up -d
 ```
@@ -208,3 +208,137 @@ docker compose exec redis redis-cli LRANGE study:tasks:failed 0 -1
 Это простая очередь без подтверждения выполнения: `BRPOP` удаляет задачу сразу,
 поэтому при сбое обработчика после получения задача может быть потеряна.
 Автоматические повторы и восстановление выполняемых задач не реализованы.
+
+---
+
+## 6. Docker: приложение и базы данных
+
+`Dockerfile` собирает Python 3.14 с зависимостями из `uv.lock`. Приложение
+запускается от непривилегированного пользователя. `.dockerignore` исключает
+локальное окружение, секреты `.env` и резервные копии из контекста сборки.
+
+Из каталога `databases`:
+
+```sh
+docker compose up --build -d
+docker compose logs -f app
+docker compose ps -a
+```
+
+Compose запускает MongoDB, PostgreSQL, Redis и приложение. Приложение ждёт
+успешных healthcheck всех БД. Внутри Docker оно использует имена сервисов
+`mongodb` и `redis` вместо `localhost`. Данные БД сохраняются в именованных
+volumes. PostgreSQL доступен для предыдущих лабораторных работ и копирования.
+
+Текущее приложение — консольная демонстрация `main.py`: создаёт примеры MongoDB,
+индексы, выводит аналитику и завершает работу с кодом 0. Статус `app: Exited (0)`
+означает успешное выполнение. Для повторного запуска и других примеров:
+
+```sh
+docker compose run --rm app
+docker compose run --rm app python redis_cache.py
+docker compose run --rm app python redis_subscriber.py
+# В другом терминале:
+docker compose run --rm app python redis_publisher.py "Привет из Docker"
+```
+
+Если нужны только базы, запускайте их явно:
+
+```sh
+docker compose up -d --wait mongodb postgres redis
+```
+
+Остановка с сохранением данных:
+
+```sh
+docker compose down
+```
+
+`docker compose down -v` дополнительно удаляет volumes и все данные БД.
+Compose предназначен для локальной лабораторной работы; используются прежние
+учебные настройки подключения и пароли.
+
+## 7. Резервное копирование и восстановление
+
+Скрипты требуют Bash, Docker Compose и запущенных сервисов `postgres`/`mongodb`.
+Утилиты `pg_dump` и `mongodump` выполняются внутри соответствующих контейнеров;
+на хост устанавливать их не нужно. Скрипты находят Compose относительно своего
+расположения и могут запускаться из любого рабочего каталога.
+
+Из каталога `databases`:
+
+```sh
+bash scripts/backup_postgres.sh
+bash scripts/backup_mongodb.sh
+# Необязательный каталог назначения (пробелы допустимы):
+bash scripts/backup_postgres.sh "/tmp/study backups"
+# Необязательное имя БД MongoDB (по умолчанию shop_db):
+MONGO_DB=shop_db bash scripts/backup_mongodb.sh
+```
+
+По умолчанию архивы сохраняются в `databases/backups/` (исключён из Git).
+Имена содержат время UTC и случайный суффикс, поэтому повторные запуски
+не перезаписывают копии. Файлы доступны только владельцу (`0600`).
+При неуспешном или пустом дампе скрипт завершается с ошибкой и удаляет временный
+файл `.partial`; готовое имя появляется только после успешной записи.
+Путь к готовому архиву выводится в stdout, сообщения утилит — в stderr.
+
+PostgreSQL копируется в custom format (`.dump`) без владельцев и ACL. Это
+логическая копия одной БД; роли и глобальные объекты кластера в неё не входят.
+Для проверки восстановите архив в **новую** базу:
+
+```sh
+pg_backup=$(bash scripts/backup_postgres.sh)
+docker compose exec -T postgres createdb -U postgres study_db_restore
+docker compose exec -T postgres pg_restore -U postgres -d study_db_restore --exit-on-error --no-owner --no-acl < "$pg_backup"
+docker compose exec -T postgres psql -U postgres -d study_db_restore -c '\dt'
+```
+
+MongoDB копируется в сжатый архив (`.archive.gz`). Восстановление с переименованием
+пространства имён сохраняет исходную базу:
+
+```sh
+mongo_backup=$(bash scripts/backup_mongodb.sh)
+docker compose exec -T mongodb mongorestore --archive --gzip --nsFrom='shop_db.*' --nsTo='shop_db_restore.*' < "$mongo_backup"
+docker compose exec -T mongodb mongosh --quiet --eval 'db.getSiblingDB("shop_db_restore").orders.countDocuments({})'
+```
+
+Для повторной проверки используйте новые имена тестовых баз.
+Во время `mongodump` в этой учебной standalone-конфигурации остановите запись
+в БД, если нужна согласованность между коллекциями. Скрипты не настраивают
+расписание, удаление старых копий или отправку во внешнее хранилище.
+
+## 8. GitHub Actions
+
+GitHub Actions выполняет автоматические workflows из `.github/workflows/*.yml`.
+События (например, push, pull request или ручной запуск) запускают jobs на runners;
+каждая job состоит из steps с shell-командами или готовыми actions. Jobs могут
+выполняться параллельно, зависеть друг от друга, использовать матрицы окружений,
+секреты, кеши зависимостей и артефакты. Расписание задаётся через `schedule`.
+Права встроенного `GITHUB_TOKEN` ограничиваются секцией `permissions`.
+См. [официальный справочник синтаксиса workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax).
+
+В репозитории добавлен `.github/workflows/databases.yml`:
+
+1. Запуск при push/PR, затрагивающем `databases` или workflow, и вручную
+   (`workflow_dispatch`).
+2. Проверка Bash через `bash -n`/ShellCheck и тесты backup-скриптов.
+3. Проверка Compose, сборка образа приложения, проверка синтаксиса Python.
+4. Запуск БД с ожиданием healthcheck, демонстраций MongoDB и кеша Redis.
+5. Создание дампов и восстановление в отдельные БД: PostgreSQL проверяется
+   чтением контрольной строки, MongoDB — наличием 100 заказов.
+6. Вывод логов и удаление контейнеров/volumes CI даже при ошибке (`always()`).
+
+Workflow имеет лимит 20 минут и права `contents: read`. Он проверяет сборку
+и работу приложения, не публикует образ и не выполняет внешнее развёртывание.
+После отправки коммита на GitHub результаты появятся во вкладке **Actions**.
+Для ручного запуска workflow должен присутствовать в основной ветке; откройте
+**Actions → Databases CI → Run workflow**.
+См. [ручной запуск workflow](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow).
+
+Локальные проверки без Docker:
+
+```sh
+bash -n scripts/backup_postgres.sh scripts/backup_mongodb.sh
+python -m unittest discover -s tests -v
+```
