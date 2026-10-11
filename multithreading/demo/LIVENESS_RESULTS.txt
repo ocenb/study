@@ -1,0 +1,6 @@
+Java=17.0.20.1; OS=Linux; CPUs=12
+Deadlock prevention (A -> B): [10000, 10000]
+Livelock (bounded observation): LivelockResult[attempts=2000, completed=0]
+Livelock prevention (retry budget + A -> B): LivelockResult[attempts=20, completed=2]
+Starvation (controlled observation): StarvationResult[monopolistOperations=10000, victimWhileMonopolized=0, victimQueued=true, victimAfterRelease=1]
+Starvation prevention (fair lock, short sections): [1000, 1000, 1000, 1000]

@@ -1,0 +1,177 @@
+2026-10-10 19:27:58
+Full thread dump OpenJDK 64-Bit Server VM (17.0.20.1+1-1-24.04-Ubuntu mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x000077bc38001f80, length=14, elements={
+0x000077bccc018120, 0x000077bccc187070, 0x000077bccc188460, 0x000077bccc190460,
+0x000077bccc191820, 0x000077bccc192c40, 0x000077bccc194600, 0x000077bccc195b40,
+0x000077bccc19efb0, 0x000077bccc1a6f10, 0x000077bccc1a9e90, 0x000077bccc1ce420,
+0x000077bccc1cf220, 0x000077bc38000fe0
+}
+
+"main" #1 prio=5 os_prio=0 cpu=54.53ms elapsed=0.30s tid=0x000077bccc018120 nid=0x954c in Object.wait()  [0x000077bcd07fe000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.20.1/Native Method)
+	- waiting on <0x000000071621bb38> (a java.lang.Thread)
+	at java.lang.Thread.join(java.base@17.0.20.1/Thread.java:1313)
+	- locked <0x000000071621bb38> (a java.lang.Thread)
+	at java.lang.Thread.join(java.base@17.0.20.1/Thread.java:1381)
+	at com.example.demo.liveness.DeadlockDemo.main(DeadlockDemo.java:51)
+
+   Locked ownable synchronizers:
+	- None
+
+"Reference Handler" #2 daemon prio=10 os_prio=0 cpu=0.20ms elapsed=0.28s tid=0x000077bccc187070 nid=0x9553 waiting on condition  [0x000077bca899f000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@17.0.20.1/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@17.0.20.1/Reference.java:253)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@17.0.20.1/Reference.java:215)
+
+   Locked ownable synchronizers:
+	- None
+
+"Finalizer" #3 daemon prio=8 os_prio=0 cpu=0.26ms elapsed=0.28s tid=0x000077bccc188460 nid=0x9554 in Object.wait()  [0x000077bca889f000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.20.1/Native Method)
+	- waiting on <0x0000000716202f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20.1/ReferenceQueue.java:155)
+	- locked <0x0000000716202f40> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20.1/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@17.0.20.1/Finalizer.java:172)
+
+   Locked ownable synchronizers:
+	- None
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=0 cpu=0.54ms elapsed=0.28s tid=0x000077bccc190460 nid=0x9555 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Service Thread" #5 daemon prio=9 os_prio=0 cpu=0.12ms elapsed=0.28s tid=0x000077bccc191820 nid=0x9556 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Monitor Deflation Thread" #6 daemon prio=9 os_prio=0 cpu=0.17ms elapsed=0.28s tid=0x000077bccc192c40 nid=0x9557 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread0" #7 daemon prio=9 os_prio=0 cpu=3.98ms elapsed=0.28s tid=0x000077bccc194600 nid=0x9558 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+   Locked ownable synchronizers:
+	- None
+
+"C1 CompilerThread0" #10 daemon prio=9 os_prio=0 cpu=19.77ms elapsed=0.28s tid=0x000077bccc195b40 nid=0x9559 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+   Locked ownable synchronizers:
+	- None
+
+"Sweeper thread" #11 daemon prio=9 os_prio=0 cpu=0.18ms elapsed=0.28s tid=0x000077bccc19efb0 nid=0x955a runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Notification Thread" #12 daemon prio=9 os_prio=0 cpu=0.11ms elapsed=0.28s tid=0x000077bccc1a6f10 nid=0x955b runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"Common-Cleaner" #13 daemon prio=8 os_prio=0 cpu=0.18ms elapsed=0.28s tid=0x000077bccc1a9e90 nid=0x955d in Object.wait()  [0x000077bc4eefd000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.20.1/Native Method)
+	- waiting on <0x00000007162184c0> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.20.1/ReferenceQueue.java:155)
+	- locked <0x00000007162184c0> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@17.0.20.1/CleanerImpl.java:140)
+	at java.lang.Thread.run(java.base@17.0.20.1/Thread.java:840)
+	at jdk.internal.misc.InnocuousThread.run(java.base@17.0.20.1/InnocuousThread.java:162)
+
+   Locked ownable synchronizers:
+	- None
+
+"Deadlock-1-A-then-B" #14 prio=5 os_prio=0 cpu=1.15ms elapsed=0.26s tid=0x000077bccc1ce420 nid=0x955e waiting for monitor entry  [0x000077bc4edfd000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.example.demo.liveness.DeadlockDemo.acquire(DeadlockDemo.java:27)
+	- waiting to lock <0x000000071621b7d8> (a java.lang.Object)
+	- locked <0x000000071621b7c8> (a java.lang.Object)
+	at com.example.demo.liveness.DeadlockDemo.lambda$main$0(DeadlockDemo.java:34)
+	at com.example.demo.liveness.DeadlockDemo$$Lambda$1/0x000077bc54000a08.run(Unknown Source)
+	at java.lang.Thread.run(java.base@17.0.20.1/Thread.java:840)
+
+   Locked ownable synchronizers:
+	- None
+
+"Deadlock-2-B-then-A" #15 prio=5 os_prio=0 cpu=0.89ms elapsed=0.26s tid=0x000077bccc1cf220 nid=0x955f waiting for monitor entry  [0x000077bc4ecfd000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at com.example.demo.liveness.DeadlockDemo.acquire(DeadlockDemo.java:27)
+	- waiting to lock <0x000000071621b7c8> (a java.lang.Object)
+	- locked <0x000000071621b7d8> (a java.lang.Object)
+	at com.example.demo.liveness.DeadlockDemo.lambda$main$1(DeadlockDemo.java:35)
+	at com.example.demo.liveness.DeadlockDemo$$Lambda$2/0x000077bc54000c30.run(Unknown Source)
+	at java.lang.Thread.run(java.base@17.0.20.1/Thread.java:840)
+
+   Locked ownable synchronizers:
+	- None
+
+"Attach Listener" #16 daemon prio=9 os_prio=0 cpu=0.40ms elapsed=0.10s tid=0x000077bc38000fe0 nid=0x9575 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+	- None
+
+"VM Periodic Task Thread" os_prio=0 cpu=0.26ms elapsed=0.28s tid=0x000077bccc1a8860 nid=0x955c waiting on condition  
+
+"VM Thread" os_prio=0 cpu=0.70ms elapsed=0.28s tid=0x000077bccc183090 nid=0x9552 runnable  
+
+"G1 Service" os_prio=0 cpu=0.14ms elapsed=0.29s tid=0x000077bccc1540d0 nid=0x9551 runnable  
+
+"G1 Refine#0" os_prio=0 cpu=0.13ms elapsed=0.29s tid=0x000077bccc1531c0 nid=0x9550 runnable  
+
+"G1 Conc#0" os_prio=0 cpu=0.10ms elapsed=0.30s tid=0x000077bccc095c20 nid=0x954f runnable  
+
+"G1 Main Marker" os_prio=0 cpu=0.14ms elapsed=0.30s tid=0x000077bccc094ca0 nid=0x954e runnable  
+
+"GC Thread#0" os_prio=0 cpu=0.12ms elapsed=0.30s tid=0x000077bccc083d20 nid=0x954d runnable  
+
+JNI global refs: 6, weak refs: 0
+
+
+Found one Java-level deadlock:
+=============================
+"Deadlock-1-A-then-B":
+  waiting to lock monitor 0x000077bc1c00dea0 (object 0x000000071621b7d8, a java.lang.Object),
+  which is held by "Deadlock-2-B-then-A"
+
+"Deadlock-2-B-then-A":
+  waiting to lock monitor 0x000077bc10009980 (object 0x000000071621b7c8, a java.lang.Object),
+  which is held by "Deadlock-1-A-then-B"
+
+Java stack information for the threads listed above:
+===================================================
+"Deadlock-1-A-then-B":
+	at com.example.demo.liveness.DeadlockDemo.acquire(DeadlockDemo.java:27)
+	- waiting to lock <0x000000071621b7d8> (a java.lang.Object)
+	- locked <0x000000071621b7c8> (a java.lang.Object)
+	at com.example.demo.liveness.DeadlockDemo.lambda$main$0(DeadlockDemo.java:34)
+	at com.example.demo.liveness.DeadlockDemo$$Lambda$1/0x000077bc54000a08.run(Unknown Source)
+	at java.lang.Thread.run(java.base@17.0.20.1/Thread.java:840)
+"Deadlock-2-B-then-A":
+	at com.example.demo.liveness.DeadlockDemo.acquire(DeadlockDemo.java:27)
+	- waiting to lock <0x000000071621b7c8> (a java.lang.Object)
+	- locked <0x000000071621b7d8> (a java.lang.Object)
+	at com.example.demo.liveness.DeadlockDemo.lambda$main$1(DeadlockDemo.java:35)
+	at com.example.demo.liveness.DeadlockDemo$$Lambda$2/0x000077bc54000c30.run(Unknown Source)
+	at java.lang.Thread.run(java.base@17.0.20.1/Thread.java:840)
+
+Found 1 deadlock.
+

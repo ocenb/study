@@ -1,0 +1,73 @@
+Java=17.0.20.1; pool=6 daemon threads
+Данные из order-data/*.csv; задержки: user=80ms, product=120ms, rate=100ms, transform=40ms, save=30ms.
+request=P1 thread=order-data-2 stage=product:start
+request=P1 thread=order-data-3 stage=rate:start
+request=P1 thread=order-data-1 stage=user:start
+request=P2 thread=order-data-4 stage=user:start
+request=P2 thread=order-data-5 stage=product:start
+request=P2 thread=order-data-6 stage=rate:start
+request=P2 thread=order-data-4 stage=user:done
+request=P1 thread=order-data-1 stage=user:done
+request=P3 thread=order-data-1 stage=user:start
+request=P3 thread=order-data-4 stage=product:start
+request=P1 thread=order-data-3 stage=rate:done
+request=P3 thread=order-data-3 stage=rate:start
+request=P2 thread=order-data-6 stage=rate:done
+request=P4 thread=order-data-6 stage=user:start
+request=P1 thread=order-data-2 stage=product:done
+request=P1 thread=order-data-2 stage=thenApply:normalize
+request=P2 thread=order-data-5 stage=product:done
+request=P2 thread=order-data-5 stage=thenApply:normalize
+request=P1 thread=order-data-2 stage=thenCombine:product+rate
+request=P2 thread=order-data-5 stage=thenCombine:product+rate
+request=P1 thread=order-data-2 stage=thenCombine:user+pricedProduct
+request=P2 thread=order-data-5 stage=thenCombine:user+pricedProduct
+request=P4 thread=order-data-2 stage=product:start
+request=P4 thread=order-data-5 stage=rate:start
+request=P3 thread=order-data-1 stage=user:done
+request=P5 thread=order-data-1 stage=user:start
+request=P4 thread=order-data-6 stage=user:done
+request=P5 thread=order-data-6 stage=product:start
+request=P5 thread=order-data-3 stage=rate:start
+request=P3 thread=order-data-4 stage=product:done
+request=P3 thread=order-data-4 stage=thenApply:normalize
+request=P3 thread=order-data-4 stage=ERROR:IOException:Имитация недоступного курса для P3
+request=P1 thread=order-data-4 stage=price:start
+request=P4 thread=order-data-5 stage=rate:done
+request=P2 thread=order-data-5 stage=price:start
+request=P4 thread=order-data-2 stage=product:done
+request=P4 thread=order-data-2 stage=thenApply:normalize
+request=P4 thread=order-data-2 stage=thenCombine:product+rate
+request=P4 thread=order-data-2 stage=thenCombine:user+pricedProduct
+request=P4 thread=order-data-2 stage=price:start
+request=P5 thread=order-data-1 stage=user:done
+request=P1 thread=order-data-4 stage=price:done
+request=P1 thread=order-data-4 stage=save:start
+request=P2 thread=order-data-5 stage=price:done
+request=P2 thread=order-data-5 stage=save:start
+request=P1 thread=order-data-4 stage=save:done
+request=P1 thread=order-data-4 stage=thenAccept:saved
+request=P4 thread=order-data-2 stage=price:done
+request=P4 thread=order-data-2 stage=save:start
+request=P2 thread=order-data-5 stage=save:done
+request=P2 thread=order-data-5 stage=thenAccept:saved
+request=P5 thread=order-data-3 stage=rate:done
+request=P5 thread=order-data-6 stage=product:done
+request=P5 thread=order-data-6 stage=thenApply:normalize
+request=P5 thread=order-data-6 stage=thenCombine:product+rate
+request=P5 thread=order-data-6 stage=thenCombine:user+pricedProduct
+request=P5 thread=order-data-6 stage=price:start
+request=P4 thread=order-data-2 stage=save:done
+request=P4 thread=order-data-2 stage=thenAccept:saved
+request=P5 thread=order-data-6 stage=price:done
+request=P5 thread=order-data-6 stage=save:start
+request=P5 thread=order-data-6 stage=save:done
+request=P5 thread=order-data-6 stage=thenAccept:saved
+Итоговые объекты: [FinalResult[requestId=P1, userName=Покупатель P1, productName=Товар P1, priceUsd=10.25, priceRub=947.61], FinalResult[requestId=P2, userName=Покупатель P2, productName=Товар P2, priceUsd=10.25, priceRub=947.61], FinalResult[requestId=P4, userName=Покупатель P4, productName=Товар P4, priceUsd=10.25, priceRub=947.61], FinalResult[requestId=P5, userName=Покупатель P5, productName=Товар P5, priceUsd=10.25, priceRub=947.61]]
+Входных ID=5; результатов=4; сохранённых заказов=4
+Executor terminated=true
+Сравнение без вывода трассировки: один прогрев каждого варианта, три замера.
+Замер 1: sync=1790.548 ms; async=373.669 ms; equal=true; results=4
+Замер 2: sync=1787.795 ms; async=372.774 ms; equal=true; results=4
+Замер 3: sync=1787.098 ms; async=372.707 ms; equal=true; results=4
+Медиана: sync=1787.795 ms; async=372.774 ms; speedup=4.80x

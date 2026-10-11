@@ -1,0 +1,14 @@
+Java: 17.0.20.1; VM: OpenJDK 64-Bit Server VM; OS: Linux amd64; CPUs: 12
+Начальное состояние нового счётчика: 0
+Первое обращение: counter=80000; sameReference=true; cache=shared-cache-value
+volatile stop: threads=4; operations=6974352; counter=6974352; sameReference=true; total=200.270 ms; stop-to-join=0.145 ms
+Прогрев: 3 запуска каждого варианта; замер: 5 запусков; 250000 операций/поток.
+threads,mode,operations,median_ms,min_ms,max_ms,median_Mops_s,counter,cache_same
+1,AtomicInteger,250000,0.873,0.678,0.963,286.457,250000,true
+1,synchronized,250000,1.277,1.229,1.548,195.835,250000,true
+2,AtomicInteger,500000,7.495,5.610,8.181,66.714,500000,true
+2,synchronized,500000,9.927,6.079,12.294,50.370,500000,true
+4,AtomicInteger,1000000,20.339,13.041,25.194,49.167,1000000,true
+4,synchronized,1000000,37.583,37.392,39.930,26.608,1000000,true
+8,AtomicInteger,2000000,48.882,44.130,50.328,40.915,2000000,true
+8,synchronized,2000000,92.081,73.995,94.244,21.720,2000000,true

@@ -1,0 +1,31 @@
+1. Future: обработка рассчитана на 8 секунд; cancel(true) через 2,5 секунды.
+CancellationResult[cancelAccepted=true, cancelled=true, done=true, interrupted=true, workerStopped=true, getThrewCancellation=true, elapsedMillis=2508.204664]
+2. invokeAll: пять задач, случайная длительность 1000..3000 мс.
+TaskResult[id=1, plannedMillis=1248, value=10, elapsedMillis=1248.097052]
+TaskResult[id=2, plannedMillis=1058, value=20, elapsedMillis=1058.1836]
+TaskResult[id=3, plannedMillis=1953, value=30, elapsedMillis=1953.110933]
+TaskResult[id=4, plannedMillis=1458, value=40, elapsedMillis=1458.101257]
+TaskResult[id=5, plannedMillis=1689, value=50, elapsedMillis=1689.151806]
+Время всей партии: 1960.157 мс
+3. ScheduledExecutorService: проверка статуса каждую секунду.
+Проверка #1: система работает
+Проверка #2: система работает
+Проверка #3: система работает
+Проверок выполнено: 3
+4. PeriodicDataAggregator: N=1 секунда, три сущности, три цикла.
+Значения валют вымышлены. Первый запрос EUR намеренно завершается ошибкой.
+Получен список сущностей, цикл #1
+Ошибка EUR: Имитация временной недоступности источника EUR
+Сохранено: USD=92.45
+Сохранено: CNY=12.88
+Получен список сущностей, цикл #2
+Сохранено: EUR=101.20
+Сохранено: CNY=12.88
+Сохранено: USD=92.45
+Получен список сущностей, цикл #3
+Сохранено: USD=92.45
+Сохранено: EUR=101.20
+Сохранено: CNY=12.88
+Результат до закрытия: Stats[startedCycles=3, completedCycles=3, skippedTicks=0, successes=8, failures=1, collecting=false, closed=false, terminated=false]
+Сохранённые сущности: [CNY, EUR, USD]
+Результат после закрытия: Stats[startedCycles=3, completedCycles=3, skippedTicks=0, successes=8, failures=1, collecting=false, closed=true, terminated=true]

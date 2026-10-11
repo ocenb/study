@@ -1,0 +1,26 @@
+ThreadPoolExecutor: core=4; max=8; queue=64; keepAlive=30s; CallerRunsPolicy
+№ | HTTP | Время, мс | URL | Ошибка
+1 | 200 | 883.500 | https://jsonplaceholder.typicode.com/posts/1 | 
+2 | 200 | 950.465 | https://jsonplaceholder.typicode.com/posts/2 | 
+3 | 200 | 965.967 | https://jsonplaceholder.typicode.com/posts/3 | 
+4 | 200 | 960.182 | https://jsonplaceholder.typicode.com/posts/4 | 
+5 | 200 | 966.871 | https://jsonplaceholder.typicode.com/posts/5 | 
+6 | 200 | 855.347 | https://jsonplaceholder.typicode.com/todos/1 | 
+7 | 200 | 977.652 | https://jsonplaceholder.typicode.com/todos/2 | 
+8 | 200 | 979.827 | https://jsonplaceholder.typicode.com/todos/3 | 
+9 | 200 | 958.594 | https://jsonplaceholder.typicode.com/todos/4 | 
+10 | 200 | 977.934 | https://jsonplaceholder.typicode.com/todos/5 | 
+11 | 200 | 984.237 | https://jsonplaceholder.typicode.com/users/1 | 
+12 | 200 | 972.740 | https://jsonplaceholder.typicode.com/users/2 | 
+13 | 200 | 1501.162 | https://jsonplaceholder.typicode.com/users/3 | 
+14 | 200 | 949.136 | https://jsonplaceholder.typicode.com/users/4 | 
+15 | 200 | 956.880 | https://jsonplaceholder.typicode.com/users/5 | 
+16 | 200 | 960.337 | https://jsonplaceholder.typicode.com/comments/1 | 
+17 | 200 | 955.897 | https://jsonplaceholder.typicode.com/comments/2 | 
+18 | 200 | 944.532 | https://jsonplaceholder.typicode.com/comments/3 | 
+19 | 200 | 1007.182 | https://jsonplaceholder.typicode.com/comments/4 | 
+20 | 200 | 974.566 | https://jsonplaceholder.typicode.com/comments/5 | 
+Всего: 20; 2xx: 20; HTTP не-2xx: 0; ошибки запросов: 0
+Длительность запроса, мс: средняя=984.150; min=855.347; max=1501.162
+Общее время партии: 1521.602 мс
+Состояние пула после закрытия: PoolSnapshot[coreThreads=4, maxThreads=8, queueCapacity=64, largestPoolSize=4, completedTasks=138, terminated=true]

@@ -1,0 +1,21 @@
+# 20 публичных URL; GET без API-ключа. Доступность и задержки зависят от сети.
+https://jsonplaceholder.typicode.com/posts/1
+https://jsonplaceholder.typicode.com/posts/2
+https://jsonplaceholder.typicode.com/posts/3
+https://jsonplaceholder.typicode.com/posts/4
+https://jsonplaceholder.typicode.com/posts/5
+https://jsonplaceholder.typicode.com/todos/1
+https://jsonplaceholder.typicode.com/todos/2
+https://jsonplaceholder.typicode.com/todos/3
+https://jsonplaceholder.typicode.com/todos/4
+https://jsonplaceholder.typicode.com/todos/5
+https://jsonplaceholder.typicode.com/users/1
+https://jsonplaceholder.typicode.com/users/2
+https://jsonplaceholder.typicode.com/users/3
+https://jsonplaceholder.typicode.com/users/4
+https://jsonplaceholder.typicode.com/users/5
+https://jsonplaceholder.typicode.com/comments/1
+https://jsonplaceholder.typicode.com/comments/2
+https://jsonplaceholder.typicode.com/comments/3
+https://jsonplaceholder.typicode.com/comments/4
+https://jsonplaceholder.typicode.com/comments/5
