@@ -35,6 +35,10 @@ services:
       dockerfile: Dockerfile
     environment:
       MONGO_URI: mongodb://mongodb:27017/
+      MONGO_USERNAME: study_app
+      MONGO_PASSWORD: ${MONGO_APP_PASSWORD:-study_app_password}
+      POSTGRES_HOST: postgres
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:-study_app_password}
       REDIS_URL: redis://redis:6379/0
     depends_on:
       mongodb:
@@ -63,13 +67,20 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
+    command: ["mongod", "--auth"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: study_root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-study_root_password}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:-study_app_password}
     restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - ./docker/mongodb/01_app_user.js:/docker-entrypoint-initdb.d/01_app_user.js:ro
+      - ./docker/mongodb/bootstrap_existing.js:/opt/bootstrap_existing.js:ro
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      test: ["CMD", "mongosh", "--quiet", "--eval", "const admin = db.getSiblingDB('admin'); admin.auth(process.env.MONGO_INITDB_ROOT_USERNAME, process.env.MONGO_INITDB_ROOT_PASSWORD); quit(admin.runCommand({connectionStatus: 1}).authInfo.authenticatedUsers.length ? 0 : 1)"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -83,10 +94,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: study_db
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:-study_app_password}
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql
+      - ./docker/postgres/01_app_role.sh:/docker-entrypoint-initdb.d/01_app_role.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s

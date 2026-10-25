@@ -61,7 +61,12 @@ def generate_orders(count: int = SAMPLE_SIZE, *, seed: int = 42, now: datetime |
 
 def main() -> None:
     now = datetime.now(timezone.utc)
-    with MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000) as client:
+    with MongoClient(
+        MONGO_URI, serverSelectionTimeoutMS=5000,
+        username=os.getenv("MONGO_USERNAME", "study_app"),
+        password=os.getenv("MONGO_PASSWORD", "study_app_password"),
+        authSource="shop_db",
+    ) as client:
         client.admin.command("ping")
         orders = OrdersRepository(client[DB_NAME][COLLECTION_NAME])
         print("Индексы:", orders.create_indexes())

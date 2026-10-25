@@ -26,8 +26,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check backup scripts
         run: |
-          bash -n scripts/backup_postgres.sh scripts/backup_mongodb.sh
-          shellcheck scripts/backup_postgres.sh scripts/backup_mongodb.sh
+          bash -n scripts/*.sh docker/postgres/*.sh
+          shellcheck scripts/*.sh docker/postgres/*.sh
           python3 -m unittest discover -s tests -p test_backups.py -v
       - name: Validate Compose and build application
         run: |
@@ -41,6 +41,9 @@ jobs:
           docker compose up -d --wait mongodb postgres redis
           docker compose run --rm app
           docker compose run --rm app python redis_cache.py
+          docker compose run --rm app python sql_injection_demo.py
+          docker compose run --rm app python postgres_access_demo.py
+          docker compose run --rm app python mongo_auth_demo.py
           docker compose exec -T postgres psql -U postgres -d study_db -v ON_ERROR_STOP=1 -c "CREATE TABLE backup_probe (id integer PRIMARY KEY); INSERT INTO backup_probe VALUES (42);"
       - name: Create and restore PostgreSQL backup
         run: |
@@ -52,8 +55,8 @@ jobs:
       - name: Create and restore MongoDB backup
         run: |
           backup=$(bash scripts/backup_mongodb.sh)
-          docker compose exec -T mongodb mongorestore --archive --gzip --nsFrom='shop_db.*' --nsTo='restore_check.*' < "$backup"
-          docker compose exec -T mongodb mongosh --quiet --eval 'if (db.getSiblingDB("restore_check").orders.countDocuments({}) !== 100) { quit(1); }'
+          bash scripts/mongo_admin.sh mongorestore --archive --gzip --nsFrom='shop_db.*' --nsTo='restore_check.*' < "$backup"
+          bash scripts/mongo_admin.sh mongosh --quiet --eval 'if (db.getSiblingDB("restore_check").orders.countDocuments({}) !== 100) { quit(1); }'
       - name: Show service logs
         if: always()
         run: docker compose --profile test logs --no-color
