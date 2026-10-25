@@ -11,3 +11,17 @@ dependencies = [
     "redis>=8.1.0",
     "sqlalchemy",
 ]
+
+[dependency-groups]
+test = [
+    "faker>=40.43.0",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "--strict-markers"
+markers = [
+    "postgres: integration tests requiring a separate PostgreSQL test database",
+]

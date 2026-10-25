@@ -340,5 +340,93 @@ Workflow имеет лимит 20 минут и права `contents: read`. О�
 
 ```sh
 bash -n scripts/backup_postgres.sh scripts/backup_mongodb.sh
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests -p test_backups.py -v
 ```
+
+---
+
+## 9. PostgreSQL: pytest, фикстуры и Faker
+
+`tests/test_postgres_crud.py` содержит 27 интеграционных сценариев для функций
+SQLAlchemy Core из `postgres_crud.py`. Запросы выполняются на настоящем
+PostgreSQL, без подмены БД или CRUD-функций.
+
+| Операция | Позитивные сценарии | Негативные сценарии |
+| --- | --- | --- |
+| Create | Сохранение и чтение из нового соединения, допустимые значения возраста, необязательный возраст | Дубликат email, NULL в обязательных полях, строки длиннее 100 символов, неверный тип возраста |
+| Read | Пустая таблица, чтение по ID, список с сортировкой | Отсутствующий ID возвращает None |
+| Update | Изменение всех полей, частичное обновление, NULL в необязательном поле | Отсутствующий ID, занятый email, нарушение NOT NULL, длины и типа |
+| Delete | Удаление с сохранением других пользователей | Отсутствующий ID, повторное удаление, запрет удаления по внешнему ключу |
+
+Негативные тесты проверяют контракт CRUD: `create_user` возвращает `None`,
+`update_user` и `delete_user` — `False`. Дополнительно проверяется, что данные
+не изменились после ошибки и следующая корректная операция выполняется успешно.
+Невалидный формат email и отрицательный возраст не объявлены ошибками:
+существующая схема не содержит таких ограничений.
+
+Фикстуры в `tests/conftest.py`:
+
+- `admin_engine` — одно подключение-пул на сессию к отдельной тестовой БД;
+- `db_engine` — новая схема `test_<UUID>` и таблица `users` для каждого теста;
+- `faker_session_locale` / `faker_seed` — русская локаль и seed 42 для Faker;
+- `user_data_factory` — генерация имени, уникального email и возраста;
+- `user_factory` — создание пользователя для подготовки сценария.
+
+После теста соединения закрываются, а его схема удаляется через `DROP SCHEMA`.
+Это обеспечивает изоляцию даже несмотря на собственные COMMIT внутри CRUD.
+Фикстура принимает только PostgreSQL URL с именем БД, заканчивающимся на `_test`;
+она не очищает таблицы основной БД. Ошибка подключения приводит к ошибке теста,
+а не к пропуску. Пользователю БД нужны права создавать и удалять свои схемы.
+
+### Запуск целиком в Docker
+
+Из каталога `databases`:
+
+```sh
+docker compose --profile test run --build --rm postgres-tests
+```
+
+Compose поднимет отдельный сервис `postgres-test` с БД `study_db_test` и дождётся
+его готовности. Тестовый образ содержит pytest и Faker; основной образ приложения
+эти зависимости не устанавливает. Команда выполняет все 29 тестов, включая
+два ранее написанных теста резервного копирования, и возвращает код pytest.
+
+Тестовая БД использует `tmpfs`: после остановки её данные исчезают. Основные БД
+и их volumes тестовым сервисом не используются. Остановка тестового сервиса:
+
+```sh
+docker compose --profile test stop postgres-test
+docker compose --profile test rm -f postgres-test
+```
+
+### Запуск pytest с хоста
+
+```sh
+uv sync --locked --group test
+docker compose --profile test up -d --wait postgres-test
+uv run --group test pytest -v
+# Только PostgreSQL:
+uv run --group test pytest -v -m postgres
+# Только негативные сценарии изменения:
+uv run --group test pytest -v -k 'update_invalid or update_duplicate or update_missing'
+```
+
+По умолчанию используется
+`postgresql+psycopg://postgres:postgres@localhost:5433/study_db_test`.
+Если порт 5433 занят, задайте `TEST_POSTGRES_PORT` при запуске Compose и укажите
+тот же порт в `TEST_DATABASE_URL` при запуске pytest. Для своей тестовой БД:
+
+```sh
+TEST_DATABASE_URL='postgresql+psycopg://postgres:postgres@localhost:5433/study_db_test' \
+  uv run --group test pytest -v --junitxml=postgres-tests.xml
+```
+
+В GitHub Actions добавлен запуск тестового сервиса. Падение любого теста завершает
+job с ошибкой; контейнеры тестового профиля очищаются в завершающем шаге.
+
+Справочные материалы: [фикстуры pytest](https://docs.pytest.org/en/stable/how-to/fixtures.html),
+[pytest-плагин Faker](https://faker.readthedocs.io/en/master/pytest-fixtures.html).
+
+Проверено локально: Python 3.14.4, PostgreSQL 16.15 — 29 тестов прошли.
+Docker/CI настроены на PostgreSQL 18.3; локальная проверка контейнеров
+не выполнялась из-за отсутствия Docker.

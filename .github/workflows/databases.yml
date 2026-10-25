@@ -28,12 +28,14 @@ jobs:
         run: |
           bash -n scripts/backup_postgres.sh scripts/backup_mongodb.sh
           shellcheck scripts/backup_postgres.sh scripts/backup_mongodb.sh
-          python3 -m unittest discover -s tests -v
+          python3 -m unittest discover -s tests -p test_backups.py -v
       - name: Validate Compose and build application
         run: |
           docker compose config --quiet
           docker compose build app
           docker compose run --rm --no-deps --user root app python -m compileall -q /app
+      - name: PostgreSQL CRUD tests with pytest and Faker
+        run: docker compose --profile test run --build --rm postgres-tests
       - name: Start databases and run examples
         run: |
           docker compose up -d --wait mongodb postgres redis
@@ -54,7 +56,7 @@ jobs:
           docker compose exec -T mongodb mongosh --quiet --eval 'if (db.getSiblingDB("restore_check").orders.countDocuments({}) !== 100) { quit(1); }'
       - name: Show service logs
         if: always()
-        run: docker compose logs --no-color
+        run: docker compose --profile test logs --no-color
       - name: Clean up CI containers and volumes
         if: always()
-        run: docker compose down -v --remove-orphans
+        run: docker compose --profile test down -v --remove-orphans
