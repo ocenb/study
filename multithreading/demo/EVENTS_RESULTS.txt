@@ -1,0 +1,7 @@
+Производителей=4; обработчиков=4; ёмкость очереди=2048
+Итог: Stats[accepted=1000, processed=1000, duplicates=20, queueRejections=0, delivered=1490, failed=10, queued=0, subscriptions=3, terminated=true]
+Событий в журнале аудита: 1000
+Доставленных уведомлений: 490
+Ошибок в журнале: 10
+evt-0: EventStatus[topic=order.created, state=COMPLETED_WITH_ERRORS, delivered=1, failed=1]
+evt-1: EventStatus[topic=user.signup, state=COMPLETED, delivered=1, failed=0]

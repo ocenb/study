@@ -1,0 +1,8 @@
+Producer=3; Consumer=4; ArrayBlockingQueue capacity=8; HTTP timeout=3s
+№ | HTTP | Время, мс | Producer -> Consumer | URL | Title | Ошибка
+1 | 200 | 892.949 | url-producer-1 -> url-consumer-1 | https://example.com | Example Domain | 
+2 | 200 | 973.677 | url-producer-2 -> url-consumer-3 | https://example.org | Example Domain | 
+3 | 200 | 893.292 | url-producer-3 -> url-consumer-4 | https://example.net | Example Domain | 
+4 | 200 | 901.088 | url-producer-1 -> url-consumer-2 | https://www.iana.org/domains/reserved | IANA-managed Reserved Domains | 
+Всего=4; успешно=4; ошибок=0; время партии=987.948 ms
+Producer pool terminated=true; Consumer pool terminated=true

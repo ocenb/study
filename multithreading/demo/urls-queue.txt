@@ -1,0 +1,5 @@
+# URL страниц для загрузки и извлечения HTML title
+https://example.com
+https://example.org
+https://example.net
+https://www.iana.org/domains/reserved

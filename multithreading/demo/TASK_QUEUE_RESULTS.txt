@@ -1,0 +1,21 @@
+Локальный HTTP; Producer=3; Consumer=4; queue=2; HTTP timeout=300ms
+№ | HTTP | Время, мс | Producer -> Consumer | URL | Title | Ошибка
+1 | 200 | 134.302 | url-producer-1 -> url-consumer-1 | http://127.0.0.1:34437/page/1 | Страница /page/1 & очередь | 
+2 | 200 | 134.153 | url-producer-2 -> url-consumer-3 | http://127.0.0.1:34437/page/2 | Страница /page/2 & очередь | 
+3 | 200 | 63.645 | url-producer-3 -> url-consumer-2 | http://127.0.0.1:34437/page/3 | Страница /page/3 & очередь | 
+4 | 200 | 134.224 | url-producer-1 -> url-consumer-2 | http://127.0.0.1:34437/page/4 | Страница /page/4 & очередь | 
+5 | 200 | 66.783 | url-producer-2 -> url-consumer-1 | http://127.0.0.1:34437/page/5 | Страница /page/5 & очередь | 
+6 | 200 | 68.754 | url-producer-3 -> url-consumer-4 | http://127.0.0.1:34437/page/6 | Страница /page/6 & очередь | 
+7 | 200 | 134.232 | url-producer-1 -> url-consumer-4 | http://127.0.0.1:34437/page/7 | Страница /page/7 & очередь | 
+8 | 200 | 63.049 | url-producer-2 -> url-consumer-2 | http://127.0.0.1:34437/page/8 | Страница /page/8 & очередь | 
+9 | 200 | 67.948 | url-producer-3 -> url-consumer-3 | http://127.0.0.1:34437/page/9 | Страница /page/9 & очередь | 
+10 | 200 | 66.702 | url-producer-1 -> url-consumer-3 | http://127.0.0.1:34437/page/10 | Страница /page/10 & очередь | 
+11 | 200 | 68.071 | url-producer-2 -> url-consumer-1 | http://127.0.0.1:34437/page/11 | Страница /page/11 & очередь | 
+12 | 200 | 63.952 | url-producer-3 -> url-consumer-2 | http://127.0.0.1:34437/page/12 | Страница /page/12 & очередь | 
+13 | 200 | 66.547 | url-producer-1 -> url-consumer-4 | http://127.0.0.1:34437/page/1 | Страница /page/1 & очередь | 
+14 | 200 | 63.711 | url-producer-2 -> url-consumer-3 | http://127.0.0.1:34437/missing | — | 
+15 | 404 | 21.949 | url-producer-3 -> url-consumer-1 | http://127.0.0.1:34437/notfound | — | HTTP 404
+16 | — | 301.144 | url-producer-1 -> url-consumer-4 | http://127.0.0.1:34437/slow | — | SocketTimeoutException: Read timed out
+17 | — | 0.443 | url-producer-2 -> url-consumer-1 | not a URL | — | IllegalArgumentException: Illegal character in path at index 3: not a URL
+Всего=17; успешно=14; ошибок=3; время партии=581.428 ms
+Producer pool terminated=true; Consumer pool terminated=true
