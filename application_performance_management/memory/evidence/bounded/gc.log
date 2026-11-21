@@ -1,0 +1,108 @@
+[0.003s][info][gc,init] CardTable entry size: 512
+[0.003s][debug][gc,heap] Minimum heap 67108864  Initial heap 67108864  Maximum heap 67108864
+[0.006s][info ][gc     ] Using G1
+[0.008s][info ][gc,init] Version: 21.0.13.1+2-LTS (release)
+[0.008s][info ][gc,init] CPUs: 12 total, 12 available
+[0.008s][info ][gc,init] Memory: 11964M
+[0.008s][info ][gc,init] Large Page Support: Disabled
+[0.008s][info ][gc,init] NUMA Support: Disabled
+[0.008s][info ][gc,init] Compressed Oops: Enabled (32-bit)
+[0.008s][info ][gc,init] Heap Region Size: 1M
+[0.008s][info ][gc,init] Heap Min Capacity: 64M
+[0.008s][info ][gc,init] Heap Initial Capacity: 64M
+[0.008s][info ][gc,init] Heap Max Capacity: 64M
+[0.008s][info ][gc,init] Pre-touch: Disabled
+[0.008s][info ][gc,init] Parallel Workers: 10
+[0.008s][info ][gc,init] Concurrent Workers: 3
+[0.008s][info ][gc,init] Concurrent Refinement Workers: 10
+[0.008s][info ][gc,init] Periodic GC: Disabled
+[0.015s][info ][gc,metaspace] CDS archive(s) mapped at: [0x000075b8df000000-0x000075b8dfc9e000-0x000075b8dfc9e000), size 13230080, SharedBaseAddress: 0x000075b8df000000, ArchiveRelocationMode: 1.
+[0.015s][info ][gc,metaspace] Compressed class space mapped at: 0x000075b8e0000000-0x000075b920000000, reserved size: 1073741824
+[0.015s][info ][gc,metaspace] Narrow klass base: 0x000075b8df000000, Narrow klass shift: 0, Narrow klass range: 0x100000000
+[24.901s][info ][gc,start    ] GC(0) Pause Full (Heap Dump Initiated GC)
+[24.901s][debug][gc,heap     ] GC(0) Heap before GC invocations=0 (full 0):
+[24.901s][debug][gc,heap     ] GC(0)  garbage-first heap   total 65536K, used 19506K [0x00000000fc000000, 0x0000000100000000)
+[24.901s][debug][gc,heap     ] GC(0)   region size 1024K, 20 young (20480K), 0 survivors (0K)
+[24.901s][debug][gc,heap     ] GC(0)  Metaspace       used 852K, committed 1024K, reserved 1114112K
+[24.901s][debug][gc,heap     ] GC(0)   class space    used 86K, committed 192K, reserved 1048576K
+[24.901s][info ][gc,task     ] GC(0) Using 2 workers of 10 for full compaction
+[24.901s][info ][gc,phases,start] GC(0) Phase 1: Mark live objects
+[24.903s][info ][gc,phases      ] GC(0) Phase 1: Mark live objects 2.373ms
+[24.903s][info ][gc,phases,start] GC(0) Phase 2: Prepare compaction
+[24.904s][info ][gc,phases      ] GC(0) Phase 2: Prepare compaction 0.220ms
+[24.904s][info ][gc,phases,start] GC(0) Phase 3: Adjust pointers
+[24.904s][info ][gc,phases      ] GC(0) Phase 3: Adjust pointers 0.506ms
+[24.904s][info ][gc,phases,start] GC(0) Phase 4: Compact heap
+[24.906s][info ][gc,phases      ] GC(0) Phase 4: Compact heap 1.789ms
+[24.906s][info ][gc,phases,start] GC(0) Phase 5: Reset Metadata
+[24.906s][info ][gc,phases      ] GC(0) Phase 5: Reset Metadata 0.224ms
+[24.907s][info ][gc,heap        ] GC(0) Eden regions: 20->0(23)
+[24.907s][info ][gc,heap        ] GC(0) Survivor regions: 0->0(0)
+[24.907s][info ][gc,heap        ] GC(0) Old regions: 2->7
+[24.907s][info ][gc,heap        ] GC(0) Humongous regions: 0->0
+[24.907s][info ][gc,metaspace   ] GC(0) Metaspace: 852K(1024K)->852K(1024K) NonClass: 765K(832K)->765K(832K) Class: 86K(192K)->86K(192K)
+[24.907s][debug][gc,heap        ] GC(0) Heap after GC invocations=1 (full 1):
+[24.907s][debug][gc,heap        ] GC(0)  garbage-first heap   total 65536K, used 5572K [0x00000000fc000000, 0x0000000100000000)
+[24.907s][debug][gc,heap        ] GC(0)   region size 1024K, 0 young (0K), 0 survivors (0K)
+[24.907s][debug][gc,heap        ] GC(0)  Metaspace       used 852K, committed 1024K, reserved 1114112K
+[24.907s][debug][gc,heap        ] GC(0)   class space    used 86K, committed 192K, reserved 1048576K
+[24.907s][info ][gc             ] GC(0) Pause Full (Heap Dump Initiated GC) 20M->5M(64M) 6.454ms
+[24.907s][info ][gc,cpu         ] GC(0) User=0.00s Sys=0.01s Real=0.00s
+[59.338s][info ][gc,start       ] GC(1) Pause Young (Normal) (G1 Evacuation Pause)
+[59.338s][debug][gc,heap        ] GC(1) Heap before GC invocations=1 (full 1):
+[59.338s][debug][gc,heap        ] GC(1)  garbage-first heap   total 65536K, used 28100K [0x00000000fc000000, 0x0000000100000000)
+[59.338s][debug][gc,heap        ] GC(1)   region size 1024K, 23 young (23552K), 0 survivors (0K)
+[59.338s][debug][gc,heap        ] GC(1)  Metaspace       used 869K, committed 1024K, reserved 1114112K
+[59.338s][debug][gc,heap        ] GC(1)   class space    used 86K, committed 192K, reserved 1048576K
+[59.338s][info ][gc,task        ] GC(1) Using 6 workers of 10 for evacuation
+[59.340s][info ][gc,phases      ] GC(1)   Pre Evacuate Collection Set: 0.15ms
+[59.340s][info ][gc,phases      ] GC(1)   Merge Heap Roots: 0.09ms
+[59.340s][info ][gc,phases      ] GC(1)   Evacuate Collection Set: 0.85ms
+[59.340s][info ][gc,phases      ] GC(1)   Post Evacuate Collection Set: 0.28ms
+[59.340s][info ][gc,phases      ] GC(1)   Other: 0.64ms
+[59.340s][info ][gc,heap        ] GC(1) Eden regions: 23->0(35)
+[59.340s][info ][gc,heap        ] GC(1) Survivor regions: 0->3(3)
+[59.340s][info ][gc,heap        ] GC(1) Old regions: 7->9
+[59.340s][info ][gc,heap        ] GC(1) Humongous regions: 0->0
+[59.340s][info ][gc,metaspace   ] GC(1) Metaspace: 869K(1024K)->869K(1024K) NonClass: 782K(832K)->782K(832K) Class: 86K(192K)->86K(192K)
+[59.340s][debug][gc,heap        ] GC(1) Heap after GC invocations=2 (full 1):
+[59.340s][debug][gc,heap        ] GC(1)  garbage-first heap   total 65536K, used 10564K [0x00000000fc000000, 0x0000000100000000)
+[59.340s][debug][gc,heap        ] GC(1)   region size 1024K, 3 young (3072K), 3 survivors (3072K)
+[59.340s][debug][gc,heap        ] GC(1)  Metaspace       used 869K, committed 1024K, reserved 1114112K
+[59.340s][debug][gc,heap        ] GC(1)   class space    used 86K, committed 192K, reserved 1048576K
+[59.340s][info ][gc             ] GC(1) Pause Young (Normal) (G1 Evacuation Pause) 28M->10M(64M) 2.186ms
+[59.340s][info ][gc,cpu         ] GC(1) User=0.00s Sys=0.00s Real=0.00s
+[64.944s][info ][gc,start       ] GC(2) Pause Full (Heap Dump Initiated GC)
+[64.944s][debug][gc,heap        ] GC(2) Heap before GC invocations=2 (full 1):
+[64.944s][debug][gc,heap        ] GC(2)  garbage-first heap   total 65536K, used 13636K [0x00000000fc000000, 0x0000000100000000)
+[64.944s][debug][gc,heap        ] GC(2)   region size 1024K, 8 young (8192K), 3 survivors (3072K)
+[64.944s][debug][gc,heap        ] GC(2)  Metaspace       used 874K, committed 1024K, reserved 1114112K
+[64.944s][debug][gc,heap        ] GC(2)   class space    used 86K, committed 192K, reserved 1048576K
+[64.944s][info ][gc,task        ] GC(2) Using 4 workers of 10 for full compaction
+[64.944s][info ][gc,phases,start] GC(2) Phase 1: Mark live objects
+[64.946s][info ][gc,phases      ] GC(2) Phase 1: Mark live objects 1.427ms
+[64.946s][info ][gc,phases,start] GC(2) Phase 2: Prepare compaction
+[64.946s][info ][gc,phases      ] GC(2) Phase 2: Prepare compaction 0.119ms
+[64.946s][info ][gc,phases,start] GC(2) Phase 3: Adjust pointers
+[64.946s][info ][gc,phases      ] GC(2) Phase 3: Adjust pointers 0.354ms
+[64.946s][info ][gc,phases,start] GC(2) Phase 4: Compact heap
+[64.947s][info ][gc,phases      ] GC(2) Phase 4: Compact heap 0.380ms
+[64.947s][info ][gc,phases,start] GC(2) Phase 5: Reset Metadata
+[64.947s][info ][gc,phases      ] GC(2) Phase 5: Reset Metadata 0.197ms
+[64.947s][info ][gc,heap        ] GC(2) Eden regions: 5->0(38)
+[64.947s][info ][gc,heap        ] GC(2) Survivor regions: 3->0(3)
+[64.947s][info ][gc,heap        ] GC(2) Old regions: 9->9
+[64.947s][info ][gc,heap        ] GC(2) Humongous regions: 0->0
+[64.947s][info ][gc,metaspace   ] GC(2) Metaspace: 874K(1024K)->871K(1024K) NonClass: 787K(832K)->785K(832K) Class: 86K(192K)->85K(192K)
+[64.947s][debug][gc,heap        ] GC(2) Heap after GC invocations=3 (full 2):
+[64.947s][debug][gc,heap        ] GC(2)  garbage-first heap   total 65536K, used 5527K [0x00000000fc000000, 0x0000000100000000)
+[64.947s][debug][gc,heap        ] GC(2)   region size 1024K, 0 young (0K), 0 survivors (0K)
+[64.947s][debug][gc,heap        ] GC(2)  Metaspace       used 871K, committed 1024K, reserved 1114112K
+[64.947s][debug][gc,heap        ] GC(2)   class space    used 85K, committed 192K, reserved 1048576K
+[64.947s][info ][gc             ] GC(2) Pause Full (Heap Dump Initiated GC) 14M->5M(64M) 3.049ms
+[64.947s][info ][gc,cpu         ] GC(2) User=0.00s Sys=0.00s Real=0.00s
+[99.375s][info ][gc,heap,exit   ] Heap
+[99.375s][info ][gc,heap,exit   ]  garbage-first heap   total 65536K, used 29335K [0x00000000fc000000, 0x0000000100000000)
+[99.375s][info ][gc,heap,exit   ]   region size 1024K, 24 young (24576K), 0 survivors (0K)
+[99.375s][info ][gc,heap,exit   ]  Metaspace       used 893K, committed 1088K, reserved 1114112K
+[99.375s][info ][gc,heap,exit   ]   class space    used 86K, committed 192K, reserved 1048576K

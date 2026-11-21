@@ -1,0 +1,15 @@
+t=7.217s mode=bounded batches=10 retained_payloads=64
+t=15.236s mode=bounded batches=20 retained_payloads=64
+t=23.242s mode=bounded batches=30 retained_payloads=64
+dump=early.hprof batch=32 retained_payloads=64
+t=31.267s mode=bounded batches=40 retained_payloads=64
+t=39.271s mode=bounded batches=50 retained_payloads=64
+t=47.275s mode=bounded batches=60 retained_payloads=64
+t=55.280s mode=bounded batches=70 retained_payloads=64
+t=63.287s mode=bounded batches=80 retained_payloads=64
+dump=late.hprof batch=82 retained_payloads=64
+t=71.304s mode=bounded batches=90 retained_payloads=64
+t=79.308s mode=bounded batches=100 retained_payloads=64
+t=87.312s mode=bounded batches=110 retained_payloads=64
+t=95.316s mode=bounded batches=120 retained_payloads=64
+t=99.318s mode=bounded batches=125 retained_payloads=64

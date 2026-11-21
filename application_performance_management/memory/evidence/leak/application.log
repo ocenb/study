@@ -1,0 +1,17 @@
+t=7.216s mode=leak batches=10 retained_payloads=80
+t=15.234s mode=leak batches=20 retained_payloads=160
+t=23.240s mode=leak batches=30 retained_payloads=240
+dump=early.hprof batch=32 retained_payloads=256
+t=31.272s mode=leak batches=40 retained_payloads=320
+t=39.276s mode=leak batches=50 retained_payloads=400
+t=47.280s mode=leak batches=60 retained_payloads=480
+t=55.284s mode=leak batches=70 retained_payloads=560
+t=63.294s mode=leak batches=80 retained_payloads=640
+dump=late.hprof batch=82 retained_payloads=656
+t=71.324s mode=leak batches=90 retained_payloads=720
+t=79.331s mode=leak batches=100 retained_payloads=800
+t=87.339s mode=leak batches=110 retained_payloads=880
+java.lang.OutOfMemoryError: Java heap space
+Dumping heap to /home/unix-user/projects/study/application_performance_management/target/memory.qtaBqN/leak/oom.hprof ...
+Heap dump file created [65587246 bytes in 0.074 secs]
+Terminating due to java.lang.OutOfMemoryError: Java heap space
