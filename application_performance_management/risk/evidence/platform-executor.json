@@ -1,0 +1,56 @@
+{
+  "clients": 64,
+  "successful_responses": 64,
+  "samples": [
+    {
+      "seconds": 0.151,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 0.311,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 0.465,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 0.62,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 0.774,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 0.927,
+      "active": 16,
+      "queued": 48
+    },
+    {
+      "seconds": 1.08,
+      "active": 16,
+      "queued": 32
+    },
+    {
+      "seconds": 1.235,
+      "active": 16,
+      "queued": 32
+    },
+    {
+      "seconds": 1.388,
+      "active": 16,
+      "queued": 32
+    },
+    {
+      "seconds": 1.541,
+      "active": 16,
+      "queued": 32
+    }
+  ]
+}
