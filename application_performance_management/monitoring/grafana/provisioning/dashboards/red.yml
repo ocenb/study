@@ -1,0 +1,6 @@
+apiVersion: 1
+providers:
+  - name: application
+    type: file
+    options:
+      path: $APM_DASHBOARDS_PATH
